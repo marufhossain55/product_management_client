@@ -7,6 +7,8 @@ const Products = () => {
   const [count, setCount] = useState(0);
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState('');
+  const [brandFilter, setBrandFilter] = useState('');
+  const [priceFilter, setPriceFilter] = useState('');
   const [sort, setSort] = useState('');
   const [search, setSearch] = useState('');
   const [searchText, setSearchText] = useState('');
@@ -16,25 +18,33 @@ const Products = () => {
       const { data } = await axios(
         `${
           import.meta.env.VITE_API_URL
-        }/all-products?page=${currentPage}&size=${itemParPage}&filter=${filter}&sort=${sort}&search=${search}`
+        }/all-products?page=${currentPage}&size=${itemParPage}&filter=${filter}&brandFilter=${brandFilter}&priceFilter=${priceFilter}&sort=${sort}&search=${search}`
       );
       setProducts(data);
     };
     getData();
-  }, [currentPage, itemParPage, filter, sort, search]);
+  }, [
+    currentPage,
+    itemParPage,
+    filter,
+    sort,
+    search,
+    brandFilter,
+    priceFilter,
+  ]);
 
   useEffect(() => {
     const getCount = async () => {
       const { data } = await axios(
         `${
           import.meta.env.VITE_API_URL
-        }/products-count?filter=${filter}&search=${search}`
+        }/products-count?filter=${filter}&brandFilter=${brandFilter}&search=${search}&priceFilter=${priceFilter}`
       );
 
       setCount(data.count);
     };
     getCount();
-  }, [filter, search]);
+  }, [filter, search, brandFilter, priceFilter]);
 
   const numberOfPages = Math.ceil(count / itemParPage);
   console.log(numberOfPages);
@@ -79,6 +89,42 @@ const Products = () => {
             <option value="men's footwear">men's footwear</option>
             <option value="women's footwear">women's footwear</option>
             <option value="home and kitchen">home and kitchen</option>
+          </select>
+        </div>
+        <div>
+          <select
+            onChange={(e) => {
+              setBrandFilter(e.target.value);
+              setCurrentPage(1);
+            }}
+            value={brandFilter}
+            name="category"
+            id="category"
+            className="border p-4 rounded-lg"
+          >
+            <option value="">Filter by Brand Name</option>
+            <option value="Cotton Wear">Cotton Wear</option>
+            <option value="Slim Fit">Slim Fit</option>
+            <option value="John Hardy">John Hardy</option>
+            <option value="Hafeez Center">Hafeez Center</option>
+            <option value="SanDisk">SanDisk</option>
+          </select>
+        </div>
+        {/* /////////////////////////////////////////////////////// */}
+        <div>
+          <select
+            onChange={(e) => {
+              setPriceFilter(e.target.value);
+              setCurrentPage(1);
+            }}
+            value={priceFilter}
+            name="category"
+            id="category"
+            className="border p-4 rounded-lg"
+          >
+            <option value="">Filter by price</option>
+            <option value="bellow 200">bellow 200</option>
+            <option value="200-1000">200-1000</option>
           </select>
         </div>
 
@@ -144,6 +190,9 @@ const Products = () => {
               </p>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 font-bold">
                 {product.category}
+              </p>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 font-bold">
+                {product.brand}
               </p>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 {product.description.substring(0, 150)}...
