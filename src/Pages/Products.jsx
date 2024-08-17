@@ -7,29 +7,34 @@ const Products = () => {
   const [count, setCount] = useState(0);
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState('');
+  const [sort, setSort] = useState('');
+  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const getData = async () => {
       const { data } = await axios(
         `${
           import.meta.env.VITE_API_URL
-        }/all-products?page=${currentPage}&size=${itemParPage}&filter=${filter}`
+        }/all-products?page=${currentPage}&size=${itemParPage}&filter=${filter}&sort=${sort}&search=${search}`
       );
       setProducts(data);
     };
     getData();
-  }, [currentPage, itemParPage, filter]);
+  }, [currentPage, itemParPage, filter, sort, search]);
 
   useEffect(() => {
     const getCount = async () => {
       const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/products-count?filter=${filter}`
+        `${
+          import.meta.env.VITE_API_URL
+        }/products-count?filter=${filter}&search=${search}`
       );
 
       setCount(data.count);
     };
     getCount();
-  }, [filter]);
+  }, [filter, search]);
 
   const numberOfPages = Math.ceil(count / itemParPage);
   console.log(numberOfPages);
@@ -38,6 +43,20 @@ const Products = () => {
   const handlePaginationButton = (value) => {
     setCurrentPage(value);
   };
+
+  const handleReset = () => {
+    setFilter('');
+    setSort('');
+    setSearch('');
+    setSearchText('');
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    setSearch(searchText);
+  };
+
   return (
     <div>
       <div className="flex flex-col md:flex-row justify-center items-center gap-5 ">
@@ -63,12 +82,14 @@ const Products = () => {
           </select>
         </div>
 
-        <form>
+        <form onSubmit={handleSearch}>
           <div className="flex p-1 overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300">
             <input
               className="px-6 py-2 text-gray-700 placeholder-gray-500 bg-white outline-none focus:placeholder-transparent"
               type="text"
               name="search"
+              onChange={(e) => setSearchText(e.target.value)}
+              value={searchText}
               placeholder="Enter Job Title"
               aria-label="Enter Job Title"
             />
@@ -80,16 +101,25 @@ const Products = () => {
         </form>
         <div>
           <select
+            onChange={(e) => {
+              setSort(e.target.value);
+              setCurrentPage(1);
+            }}
+            value={sort}
             name="category"
             id="category"
             className="border p-4 rounded-md"
           >
-            <option value="">Sort By Deadline</option>
-            <option value="dsc">Descending Order</option>
-            <option value="asc">Ascending Order</option>
+            Price: Low to High, High to Low
+            <option value="">Sort By Date and time</option>
+            <option value="dsc">Price:High to Low</option>
+            <option value="asc">Price: Low to High</option>
+            <option value="dasc">Date Added: Newest first</option>
           </select>
         </div>
-        <button className="btn">Reset</button>
+        <button onClick={handleReset} className="btn">
+          Reset
+        </button>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {products?.map((product) => (
