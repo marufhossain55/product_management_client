@@ -15,7 +15,7 @@ const Products = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios(
+      const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_URL
         }/all-products?page=${currentPage}&size=${itemParPage}&filter=${filter}&brandFilter=${brandFilter}&priceFilter=${priceFilter}&sort=${sort}&search=${search}`
@@ -32,10 +32,10 @@ const Products = () => {
     brandFilter,
     priceFilter,
   ]);
-
+  console.log(products);
   useEffect(() => {
     const getCount = async () => {
-      const { data } = await axios(
+      const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_URL
         }/products-count?filter=${filter}&brandFilter=${brandFilter}&search=${search}&priceFilter=${priceFilter}`
