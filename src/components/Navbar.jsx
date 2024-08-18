@@ -5,6 +5,7 @@ import logo from '../assets/images/logo.png';
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
+  console.log(user);
 
   const handleLogOut = () => {
     logOut()
@@ -156,16 +157,13 @@ const NavBar = () => {
                     className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white cursor-pointer"
                   >
                     <img
-                      src="https://i.pravatar.cc/40?img=35"
+                      src={user?.photoURL}
                       alt="user name"
                       title="user name"
                       width="40"
                       height="40"
                       className="max-w-full rounded-full"
                     />
-                    <span className="absolute bottom-0 right-0 inline-flex items-center justify-center gap-1 rounded-full border-2 border-white bg-pink-500 p-1 text-sm text-white">
-                      <span className="sr-only"> 7 new emails </span>
-                    </span>
                   </div>
                   {/* End Avatar */}
 
@@ -178,20 +176,6 @@ const NavBar = () => {
                         aria-orientation="vertical"
                         aria-labelledby="options-menu"
                       >
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                          role="menuitem"
-                        >
-                          Profile
-                        </a>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                          role="menuitem"
-                        >
-                          Settings
-                        </a>
                         <a
                           onClick={handleLogOut}
                           href="#"

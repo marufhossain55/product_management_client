@@ -59,6 +59,8 @@ const Products = () => {
     setSort('');
     setSearch('');
     setSearchText('');
+    setBrandFilter('');
+    setPriceFilter('');
   };
 
   const handleSearch = (e) => {
@@ -103,11 +105,18 @@ const Products = () => {
             className="border p-4 rounded-lg"
           >
             <option value="">Filter by Brand Name</option>
+            <option value="Fjallraven">Fjallraven</option>
+            <option value="Casual Premium">Casual Premium</option>
             <option value="Cotton Wear">Cotton Wear</option>
-            <option value="Slim Fit">Slim Fit</option>
-            <option value="John Hardy">John Hardy</option>
-            <option value="Hafeez Center">Hafeez Center</option>
+            <option value="Princess">Princess</option>
             <option value="SanDisk">SanDisk</option>
+            <option value="Silicon Power">Silicon Power</option>
+            <option value="BIYLACLESEN">BIYLACLESEN</option>
+            <option value="TCL">TCL</option>
+            <option value="Anker">Anker</option>
+            <option value="Apple">Apple</option>
+            <option value="Microsoft">Microsoft</option>
+            <option value="Ring">Ring</option>
           </select>
         </div>
         {/* /////////////////////////////////////////////////////// */}
@@ -123,8 +132,9 @@ const Products = () => {
             className="border p-4 rounded-lg"
           >
             <option value="">Filter by price</option>
-            <option value="bellow 200">bellow 200</option>
+            <option value="bellow 200">below 200</option>
             <option value="200-1000">200-1000</option>
+            <option value="upper 1000">upper 1000</option>
           </select>
         </div>
 
@@ -136,8 +146,8 @@ const Products = () => {
               name="search"
               onChange={(e) => setSearchText(e.target.value)}
               value={searchText}
-              placeholder="Enter Job Title"
-              aria-label="Enter Job Title"
+              placeholder="Enter product Title"
+              aria-label="Enter product Title"
             />
 
             <button className="px-1 md:px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">
@@ -167,7 +177,7 @@ const Products = () => {
           Reset
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid  lg:grid-cols-3 gap-4">
         {products?.map((product) => (
           <div
             key={product._id}
@@ -202,9 +212,7 @@ const Products = () => {
                 <h1 className="text-lg font-bold text-gray-700 dark:text-gray-200 md:text-xl">
                   ${product.price}
                 </h1>
-                {/* <button className="px-2 py-1 text-xs font-bold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-600">
-              Add to Cart
-            </button> */}
+
                 <h1 className="text-lg font-bold text-gray-700 dark:text-gray-200 md:text-xl flex justify-center items-center">
                   <svg
                     className="w-5 h-5 text-gray-700 fill-current dark:text-gray-300"
